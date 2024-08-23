@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dk2fgpjfhh7gq"]
+
+[ext_resource type="Texture2D" uid="uid://dlxokelm0evkr" path="res://assets/white_pixel.png" id="1_hr4md"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.870588, 0.172549, 0.172549, 1)
+texture = ExtResource("1_hr4md")
