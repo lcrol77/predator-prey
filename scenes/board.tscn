@@ -5,4 +5,4 @@
 [node name="Board" type="Node2D"]
 script = ExtResource("1_vg8j3")
 
-[node name="Pixels" type="Node" parent="."]
+[node name="PixelsHolder" type="Node" parent="."]

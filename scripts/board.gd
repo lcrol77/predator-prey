@@ -1,10 +1,10 @@
 extends Node2D
 
-@onready var pixels: Node = $Pixels
+@onready var PixelsHolder: Node = $PixelsHolder
 
 const PIXEL = preload("res://scenes/pixel.tscn")
 const CREATURE = preload("res://resources/creature.tres")
-const BOARD_SIZE = 144
+const BOARD_SIZE = 200
 
 var BG_COLOR := Color.html("#333333")
 var PRED_COLOR := Color.html("#de2c2c")
@@ -12,26 +12,26 @@ var PREY_COLOR :=  Color.html("#4dab6b")
 var rng = RandomNumberGenerator.new()
 
 var board: Array
-
-func _init():
-	for i in BOARD_SIZE:
-		board.append([])
-		for j in BOARD_SIZE:
-			board[i].append(CREATURE.create_instance())
+var pixels: Array
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	for i in BOARD_SIZE:
+		pixels.append([])
+		board.append([])
+		for j in BOARD_SIZE:
+			board[i].append(CREATURE.create_instance())
+			var pixel = PIXEL.instantiate()
+			PixelsHolder.add_child(pixel)
+			pixel.global_position = Vector2(j + 1, -i)
+			pixels[i].append(pixel)
 	draw_pixels()
 	
 func draw_pixels() -> void:
-	for child in pixels.get_children():
-		child.queue_free()
 	for i in BOARD_SIZE:
 		for j in BOARD_SIZE:
 			var creature: Creature = board[i][j]
-			var pixel =  PIXEL.instantiate()
-			pixels.add_child(pixel)
-			pixel.global_position = Vector2(j + 1, -i)
+			var pixel = pixels[i][j]
 			if creature.type == creature.Type.PREY:
 				pixel.self_modulate = PREY_COLOR
 			elif creature.type == creature.Type.PRED:

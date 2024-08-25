@@ -1,10 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://dk2fgpjfhh7gq"]
 
-[ext_resource type="PackedScene" path="res://scenes/board.tscn" id="1_4v3w0"]
+[ext_resource type="PackedScene" uid="uid://cuti8uvjpkpw1" path="res://scenes/board.tscn" id="1_4v3w0"]
 
 [node name="Main" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(72, -72)
+position = Vector2(100, -100)
 
 [node name="Board" parent="." instance=ExtResource("1_4v3w0")]
