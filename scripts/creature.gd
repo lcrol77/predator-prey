@@ -5,7 +5,7 @@ enum Type {PRED, PREY, NONE }
 
 @export var max_health := 50
 
-var health: int: set = set_health
+var health: int
 var type: int
 var rand = RandomNumberGenerator.new()
 
@@ -18,8 +18,24 @@ func create_instance() -> Resource:
 	elif roll > 5:
 		instance.type = Type.PREY
 	else:
-		instance.type = Type.PREY
+		instance.type = Type.PRED
 	return instance
 	
-func set_health(value : int) -> void:
-	health = clampi(value, 0, max_health)
+func	 move(other:Creature) -> void:
+	other.type = self.type
+	other.health = self.health
+	self.type = Type.NONE
+
+func reproduce(other: Creature):
+	other.health = 10;
+	other.type = Type.PREY;
+
+func heal(hp: int) -> void:
+	self.health += hp
+
+func update() ->void:
+	match self.type:
+		Type.PRED:
+			self.heal(-1)
+		Type.PREY:
+			self.heal(1)
