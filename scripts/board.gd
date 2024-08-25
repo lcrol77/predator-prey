@@ -3,18 +3,17 @@ extends Node2D
 @onready var pixels: Node = $Pixels
 
 const PIXEL = preload("res://scenes/pixel.tscn")
+const CREATURE = preload("res://resources/creature.tres")
 const BOARD_SIZE = 144
-
 var BG_COLOR := Color.html("#333333")
 var PRED_COLOR := Color.html("#de2c2c")
 var PREY_COLOR :=  Color.html("#4dab6b")
-
 var rng = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	draw_pixels()
-
+	
 func draw_pixels() -> void:
 	for i in BOARD_SIZE:
 		for j in BOARD_SIZE:
