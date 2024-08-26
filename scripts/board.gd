@@ -26,7 +26,8 @@ func _ready() -> void:
 			pixel.global_position = Vector2(j + 1, -i)
 			pixels[i].append(pixel)
 	draw_pixels()
-	
+
+# this probably can be offloaded to the GPU
 func draw_pixels() -> void:
 	for i in BOARD_SIZE:
 		for j in BOARD_SIZE:
@@ -50,13 +51,46 @@ func update() -> void:
 			var curr: Creature = board[i][j]
 			if curr.type == Creature.Type.NONE:
 				continue
-			var _x_off = rng.randi_range(-1,1)
-			var _y_off = rng.randi_range(-1,1)
-			var _x_adjusted = i + _x_off
-			var _y_adjusted = j + _y_off
+			var _i_off = rng.randi_range(-1,1)
+			var _j_off = rng.randi_range(-1,1)
+			var _i_adjusted = i + _i_off
+			var _j_adjusted = j + _j_off
 			
-			if _x_adjusted < 0 || _x_adjusted >= BOARD_SIZE - 1: continue;
-			if _y_adjusted < 0 || _y_adjusted >= BOARD_SIZE - 1: continue;
+			if _i_adjusted < 0 || _i_adjusted >= BOARD_SIZE: continue;
+			if _j_adjusted < 0 || _j_adjusted >= BOARD_SIZE: continue;
 			
-			var other: Creature = board[_x_adjusted][_y_adjusted]
+			var other: Creature = board[_i_adjusted][_j_adjusted]
+			curr.update()
+			match curr.type:
+				Creature.Type.PRED:
+					update_pred(curr, other)
+				Creature.Type.PREY:
+					update_prey(curr, other)
+
+func update_prey(curr: Creature, other: Creature) -> void:
+	var otherType = other.type
+	var reproduce = false
+	if curr.health > curr.max_health:
+		curr.health = 10
+		reproduce = true
+	match otherType:
+		Creature.Type.PRED: return
+		Creature.Type.PREY: return
+		Creature.Type.NONE:
+			if reproduce:
+				curr.reproduce(other)
+			else:
+				curr.move(other)
+
+func update_pred(curr: Creature, other: Creature) -> void:
+	if curr.health <=0:
+		curr.type = Creature.Type.NONE
+		return
+	var otherType = other.type
+	match otherType:
+		Creature.Type.PRED: return
+		Creature.Type.PREY: 
+			other.type = Creature.Type.PRED
+			curr.heal(other.health)
+		Creature.Type.NONE:
 			curr.move(other)

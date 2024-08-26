@@ -21,10 +21,11 @@ func create_instance() -> Resource:
 		instance.type = Type.PRED
 	return instance
 	
-func	 move(other:Creature) -> void:
+func move(other: Creature) -> void:
+	var tmp = other.type
 	other.type = self.type
+	self.type = tmp
 	other.health = self.health
-	self.type = Type.NONE
 
 func reproduce(other: Creature):
 	other.health = 10;
