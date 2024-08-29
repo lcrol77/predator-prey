@@ -14,12 +14,12 @@ config/name="predator prey"
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 run/max_fps=60
-config/icon="res://icon.svg"
+config/icon="res://pred_icon.PNG"
 
 [display]
 
-window/size/viewport_width=200
-window/size/viewport_height=200
+window/size/viewport_width=100
+window/size/viewport_height=100
 window/size/resizable=false
 window/size/window_width_override=1280
 window/size/window_height_override=1280
@@ -28,4 +28,3 @@ window/stretch/mode="viewport"
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-renderer/rendering_method="mobile"
